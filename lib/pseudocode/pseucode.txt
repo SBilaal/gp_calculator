@@ -1,0 +1,42 @@
+Main.dart
+    HomePage
+
+HomePage
+    TabControllerView
+        Subject
+        Unit
+        Score
+Subject
+    Scaffold
+        floatingActionButton
+        ListView.builder()
+            Dismissible
+                ListTile
+                    title
+                        Text()
+                    leading
+                        Icons.edit
+Unit
+    ListView.builder()
+        ListTile
+            title
+                Text()
+            leading
+                DropDwonList
+Score
+    floatingActionButton
+    ListView.builder()
+        ListTile
+            title
+                Text()
+            leading
+                DropDwonList
+ResultPage
+    Column
+        Container
+            Text
+        Text()
+        Row
+            Button
+            Button
+                
