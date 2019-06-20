@@ -20,6 +20,7 @@ class _MyAppState extends State<MyApp> {
       model: CourseModel(),
       child: MaterialApp(
         theme: ThemeData(
+          fontFamily: 'CircularStd-Book',
           primaryColor: Colors.deepOrange,
         ),
         home: HomePage(),

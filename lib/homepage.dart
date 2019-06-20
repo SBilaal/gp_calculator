@@ -5,32 +5,14 @@ import 'package:gp_calculator/scoped_model/course_model.dart';
 import 'package:gp_calculator/widgets/edit_course_widget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-import 'models/course.dart';
-
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final _key = GlobalKey<FormState>();
-
-  final _courseController = TextEditingController();
-
-  final _unitController = TextEditingController();
-
-  final _scoreController = TextEditingController();
-
-  final _hintStyle = TextStyle(fontSize: 20);
-
-  final _formData = <String, dynamic>{
-    "Course": null,
-    "Unit": 0,
-    "Score": 0.0,
-  };
 
   final addCourseWidget = EditCourseWidget();
-  final editCourseWidget = EditCourseWidget();
 
   Widget buildGPStatusDisplay(CourseModel model) {
     return Container(
@@ -127,118 +109,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildCourseForm() {
-    return Form(
-      key: _key,
-      child: Container(
-        constraints: BoxConstraints(maxHeight: 170, minHeight: 140),
-        child: Column(
-          children: <Widget>[
-            TextFormField(
-              validator: (String value) {
-                if (value.isEmpty || value.length > 10) {
-                  return "Invalid course";
-                }
-              },
-              controller: _courseController,
-              textCapitalization: TextCapitalization.characters,
-              decoration: InputDecoration(
-                isDense: true,
-                labelText: 'Course code',
-                hintText: 'Course',
-                hintStyle: _hintStyle,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 4,
-                  child: TextFormField(
-                    validator: (String value) {
-                      if (value.isEmpty || !(num.parse(value) is int)) {
-                        return "Invalid unit value";
-                      }
-                    },
-                    controller: _unitController,
-                    keyboardType: TextInputType.numberWithOptions(),
-                    decoration: InputDecoration(
-                        isDense: true,
-                        labelText: 'Unit',
-                        hintText: "Unit",
-                        hintStyle: _hintStyle,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        )),
-                  ),
-                ),
-                Expanded(
-                  child: SizedBox(),
-                ),
-                Expanded(
-                  flex: 4,
-                  child: TextFormField(
-                    validator: (String value) {
-                      if (value.isEmpty || !(num.parse(value) is num)) {
-                        return "Invalid score";
-                      }
-                    },
-                    controller: _scoreController,
-                    keyboardType: TextInputType.numberWithOptions(),
-                    decoration: InputDecoration(
-                        isDense: true,
-                        labelText: 'Score',
-                        hintText: "Score",
-                        hintStyle: _hintStyle,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        )),
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  // void _submitForm(BuildContext context, CourseModel model) {
-  //   if (_key.currentState.validate()) {
-  //     _formData["Course"] = _courseController.text;
-  //     _formData["Unit"] = int.parse(_unitController.text);
-  //     _formData["Score"] = double.parse(_scoreController.text);
-
-  //     setState(() {
-  //       if(model.selectedIndex != null) {
-  //         model.updateCourse(Course(
-  //         course: _formData['Course'],
-  //         unit: _formData['Unit'],
-  //         score: _formData['Score'],
-  //       ));
-  //       }
-  //       else {
-  //         model.addCourse(Course(
-  //         course: _formData['Course'],
-  //         unit: _formData['Unit'],
-  //         score: _formData['Score'],
-  //       ));
-  //       }
-        
-  //       _key.currentState.save();
-  //       _courseController.text = "";
-  //       _unitController.text = "";
-  //       _scoreController.text = "";
-  //     });
-  //     Navigator.of(context).pop();
-  //   }
-  // }
-
   void showGp(BuildContext context, CourseModel model) {
     showDialog(
       barrierDismissible: false,
@@ -323,7 +193,7 @@ class _HomePageState extends State<HomePage> {
                           onLongPress: () {
                             print('read ya!');
                             model.selectIndex(index);
-                            _addCourse(context, editCourseWidget);
+                            _addCourse(context, addCourseWidget);
                           },
                           child: CourseWidget(
                             addCourse: _addCourse,
