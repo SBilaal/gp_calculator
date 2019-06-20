@@ -3,8 +3,10 @@ import '../models/course.dart';
 
 class CourseModel extends Model{
   List<Course> _courses = [];
-  int selectedIndex;
+  int _selectedIndex;
   double _gpValue;
+
+  int get selectedIndex => _selectedIndex;
 
 
   List<int> _gpValueColors = [0x0F0DEEDB, 0x0FCDDC39, 0x0FFFA500, 0x0FFA8072, 0x0FFF0000];
@@ -24,7 +26,7 @@ class CourseModel extends Model{
   Map<String, dynamic> get gpStatus => Map<String, dynamic>.from(_gpStatus);
 
   void selectIndex(int index) {
-    selectedIndex = index;
+    _selectedIndex = index;
   }
 
   List<Course> get courses =>  List.from(_courses);
@@ -34,11 +36,11 @@ class CourseModel extends Model{
   }
 
   void updateCourse(Course course) {
-    _courses[selectedIndex] = course;
+    _courses[_selectedIndex] = course;
   }
 
   void deleteCourse() {
-    _courses.removeAt(selectedIndex);
+    _courses.removeAt(_selectedIndex);
   }
 
   int _getGradePointEquivalent(double score) {

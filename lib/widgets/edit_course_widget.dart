@@ -26,17 +26,25 @@ class EditCourseWidget extends StatefulWidget {
       _formData["Unit"] = int.parse(_unitController.text);
       _formData["Score"] = double.parse(_scoreController.text);
 
-      model.addCourse(Course(
-        course: _formData['Course'],
-        unit: _formData['Unit'],
-        score: _formData['Score'],
-      ));
+      if (model.selectedIndex != null) {
+        model.updateCourse(Course(
+          course: _formData['Course'],
+          unit: _formData['Unit'],
+          score: _formData['Score'],
+        ));
+      } else {
+        model.addCourse(Course(
+          course: _formData['Course'],
+          unit: _formData['Unit'],
+          score: _formData['Score'],
+        ));
+      }
 
       _key.currentState.save();
       _courseController.text = "";
       _unitController.text = "";
       _scoreController.text = "";
-      
+
       Navigator.of(context).pop();
     }
   }
@@ -47,12 +55,13 @@ class EditCourseWidget extends StatefulWidget {
 
 class _EditCourseWidgetState extends State<EditCourseWidget> {
   Widget buildCourseForm(CourseModel model) {
-    // if(model.selectedIndex != null) {
-    //   widget._courseController.text = model.courses[model.selectedIndex].course;
-    //   widget._unitController.text = model.courses[model.selectedIndex].unit.toString();
-    //   widget._scoreController.text = model.courses[model.selectedIndex].score.toString();
-    //   model.selectedIndex = null;
-    // }
+    if (model.selectedIndex != null) {
+      widget._courseController.text = model.courses[model.selectedIndex].course;
+      widget._unitController.text =
+          model.courses[model.selectedIndex].unit.toString();
+      widget._scoreController.text =
+          model.courses[model.selectedIndex].score.toString();
+    }
     return Form(
       key: widget._key,
       child: Container(

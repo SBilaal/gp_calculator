@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
     "Score": 0.0,
   };
 
+  final addCourseWidget = EditCourseWidget();
   final editCourseWidget = EditCourseWidget();
 
   Widget buildGPStatusDisplay(CourseModel model) {
@@ -76,7 +77,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _addCourse(BuildContext context) {
+  void _addCourse(BuildContext context, EditCourseWidget editCourseWidget) {
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -106,7 +107,8 @@ class _HomePageState extends State<HomePage> {
                 FlatButton(
                   onPressed: () {
                     setState(() {
-                     editCourseWidget.submitForm(context, model); 
+                      editCourseWidget.submitForm(context, model);
+                      model.selectIndex(null);
                     });
                   },
                   child: Text(
@@ -206,25 +208,36 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _submitForm(BuildContext context, CourseModel model) {
-    if (_key.currentState.validate()) {
-      _formData["Course"] = _courseController.text;
-      _formData["Unit"] = int.parse(_unitController.text);
-      _formData["Score"] = double.parse(_scoreController.text);
-      setState(() {
-        model.addCourse(Course(
-          course: _formData['Course'],
-          unit: _formData['Unit'],
-          score: _formData['Score'],
-        ));
-        _key.currentState.save();
-        _courseController.text = "";
-        _unitController.text = "";
-        _scoreController.text = "";
-      });
-      Navigator.of(context).pop();
-    }
-  }
+  // void _submitForm(BuildContext context, CourseModel model) {
+  //   if (_key.currentState.validate()) {
+  //     _formData["Course"] = _courseController.text;
+  //     _formData["Unit"] = int.parse(_unitController.text);
+  //     _formData["Score"] = double.parse(_scoreController.text);
+
+  //     setState(() {
+  //       if(model.selectedIndex != null) {
+  //         model.updateCourse(Course(
+  //         course: _formData['Course'],
+  //         unit: _formData['Unit'],
+  //         score: _formData['Score'],
+  //       ));
+  //       }
+  //       else {
+  //         model.addCourse(Course(
+  //         course: _formData['Course'],
+  //         unit: _formData['Unit'],
+  //         score: _formData['Score'],
+  //       ));
+  //       }
+        
+  //       _key.currentState.save();
+  //       _courseController.text = "";
+  //       _unitController.text = "";
+  //       _scoreController.text = "";
+  //     });
+  //     Navigator.of(context).pop();
+  //   }
+  // }
 
   void showGp(BuildContext context, CourseModel model) {
     showDialog(
@@ -300,16 +313,24 @@ class _HomePageState extends State<HomePage> {
                           if (direction == DismissDirection.startToEnd) {
                             model.selectIndex(index);
                             setState(() {
-                             model.deleteCourse(); 
+                              model.deleteCourse();
                             });
-                            model.selectedIndex = null;
+                            model.selectIndex(null);
                           }
                         },
                         key: Key(model.courses[index].key),
-                        child: CourseWidget(
-                          course: model.courses[index].course,
-                          unit: model.courses[index].unit,
-                          score: model.courses[index].score,
+                        child: GestureDetector(
+                          onLongPress: () {
+                            print('read ya!');
+                            model.selectIndex(index);
+                            _addCourse(context, editCourseWidget);
+                          },
+                          child: CourseWidget(
+                            addCourse: _addCourse,
+                            course: model.courses[index].course,
+                            unit: model.courses[index].unit,
+                            score: model.courses[index].score,
+                          ),
                         ),
                       );
                     },
@@ -322,7 +343,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     FloatingActionButton(
-                      onPressed: () => _addCourse(context),
+                      onPressed: () => _addCourse(context, addCourseWidget),
                       child: Icon(Icons.add),
                       backgroundColor: Theme.of(context).primaryColor,
                     ),
