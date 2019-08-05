@@ -11,7 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   final addCourseWidget = EditCourseWidget();
 
   Widget buildGPStatusDisplay(CourseModel model) {
@@ -151,7 +150,7 @@ class _HomePageState extends State<HomePage> {
       return Scaffold(
         appBar: AppBar(
           title: Text(
-            'GP Planner',
+            'GP Calculator',
             style: TextStyle(
                 color: Colors.black, fontWeight: FontWeight.w300, fontSize: 30),
           ),
@@ -189,17 +188,20 @@ class _HomePageState extends State<HomePage> {
                           }
                         },
                         key: Key(model.courses[index].key),
-                        child: GestureDetector(
-                          onLongPress: () {
-                            print('read ya!');
-                            model.selectIndex(index);
-                            _addCourse(context, addCourseWidget);
-                          },
-                          child: CourseWidget(
-                            addCourse: _addCourse,
-                            course: model.courses[index].course,
-                            unit: model.courses[index].unit,
-                            score: model.courses[index].score,
+                        child: Material(
+                          child: InkWell(
+                            highlightColor: Theme.of(context).primaryColor,
+                            splashColor: Theme.of(context).primaryColor,
+                            onLongPress: () {
+                              model.selectIndex(index);
+                              _addCourse(context, addCourseWidget);
+                            },
+                            child: CourseWidget(
+                              addCourse: _addCourse,
+                              course: model.courses[index].course,
+                              unit: model.courses[index].unit,
+                              score: model.courses[index].score,
+                            ),
                           ),
                         ),
                       );

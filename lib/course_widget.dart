@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'widgets/edit_course_widget.dart';
 
-
-
 class CourseWidget extends StatefulWidget {
   final String course;
   final int unit;
@@ -46,7 +44,8 @@ class _CourseWidgetState extends State<CourseWidget> {
                   Border.all(color: Theme.of(context).primaryColor, width: 1),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Center(child: Text('${widget.unit}', style: TextStyle(fontSize: 25))),
+            child: Center(
+                child: Text('${widget.unit}', style: TextStyle(fontSize: 25))),
           ),
         ],
       ),
@@ -69,8 +68,8 @@ class _CourseWidgetState extends State<CourseWidget> {
                   Border.all(color: Theme.of(context).primaryColor, width: 1),
               borderRadius: BorderRadius.circular(10),
             ),
-            child:
-                Center(child: Text('${widget.score}', style: TextStyle(fontSize: 25))),
+            child: Center(
+                child: Text('${widget.score}', style: TextStyle(fontSize: 25))),
           ),
         ],
       ),
