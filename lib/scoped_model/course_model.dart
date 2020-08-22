@@ -79,11 +79,16 @@ class CourseModel extends Model {
 
     for (int i = 0; i < courses.length; i++) {
       sumOfUnit += courses[i].unit;
+      
     }
     for (int i = 0; i < courses.length; i++) {
       sumOfProductOfCourseAndUnit +=
           (courses[i].unit * _getGradePointEquivalent(courses[i].score));
+          
     }
+
+    print(sumOfUnit);
+    print(sumOfProductOfCourseAndUnit);
 
     _gpValue = sumOfProductOfCourseAndUnit / sumOfUnit;
     _interpreteGpValue();
